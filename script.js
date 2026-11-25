@@ -189,10 +189,35 @@ function lightUp() {
 
 candle.addEventListener('click', lightUp);
 
-/* Botón: por ahora solo celebra (el siguiente paso lo conecta a la sorpresa) */
+/* =========================================================
+   SECCIÓN "BELLOS MOMENTOS"
+   ========================================================= */
+const moments = document.getElementById('moments');
+const backBtn = document.getElementById('back');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+
+/* Botón "Descubrir mi sorpresa": explosión de confeti y se abre la sección */
 enterBtn.addEventListener('click', () => {
   const w = window.innerWidth, h = window.innerHeight;
   cannon(w / 2, h * 0.75, 120, -150, -30, 10, 22);
-  enterBtn.textContent = 'Muy pronto... ✨';
-  enterBtn.disabled = true;
+  if (navigator.vibrate) navigator.vibrate(40);
+  setTimeout(() => {
+    moments.scrollTop = 0;
+    moments.classList.add('open');
+  }, 550);
 });
+
+/* Volver a la pantalla anterior */
+backBtn.addEventListener('click', () => {
+  moments.classList.remove('open');
+});
+
+/* Tocar una foto la agranda; tocar de nuevo la cierra */
+document.querySelectorAll('.polaroid').forEach(p => {
+  p.addEventListener('click', () => {
+    lightboxImg.src = p.querySelector('img').src;
+    lightbox.classList.add('show');
+  });
+});
+lightbox.addEventListener('click', () => lightbox.classList.remove('show'));
