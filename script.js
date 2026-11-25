@@ -593,7 +593,7 @@ const LETTER =
   'Mamá:\n\n' +
   'Hoy es tu día y quise regalarte algo diferente: un pequeño rincón hecho con mucho cariño solo para ti.\n\n' +
   'Gracias por cada abrazo, cada consejo y cada sacrificio que hiciste en silencio para que yo pudiera llegar hasta aquí. Todo lo bueno que soy lo aprendí de ti.\n\n' +
-  'Ojalá este nuevo año de vida te traiga salud, alegría y todo lo bonito que mereces. Que nunca te falte una canción que te haga bailar ni una razón para sonreír.\n\n' +
+  'Ojalá este nuevo año de vida te traiga salud, alegría y todo lo bonito que mereces. Que nunca te falte un motivo para sonrerir.\n\n' +
   'Te quiero mucho, mamá.';
 
 let letterRun = 0;       // sirve para cancelar si se sale de la carta
