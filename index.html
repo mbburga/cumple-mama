@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Feliz cumpleaños madre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Resplandor que ilumina toda la pantalla -->
+  <div id="glow"></div>
+
+  <!-- Partículas / chispas -->
+  <div id="embers"></div>
+
+  <main id="scene">
+
+    <!-- Título (aparece al tocar la vela) -->
+    <h1 id="title">
+      <span class="line1">Feliz cumpleaños</span>
+      <span class="line2">madre</span>
+    </h1>
+
+    <!-- La vela -->
+    <button id="candle" aria-label="Tocar la vela">
+      <div class="flame-wrap">
+        <div class="flame"></div>
+        <div class="flame-core"></div>
+      </div>
+      <div class="wick"></div>
+      <div class="wax">
+        <div class="drip d1"></div>
+        <div class="drip d2"></div>
+      </div>
+    </button>
+
+    <p id="hint">tócame</p>
+
+    <!-- Mensaje de bienvenida -->
+    <section id="welcome">
+      <p class="msg">Hoy el mundo brilla un poquito más porque es tu día.</p>
+      <p class="msg">Esta página es solo para ti. Prepárate, hay sorpresas esperándote.</p>
+      <button id="enter">Descubrir mi sorpresa 🎁</button>
+    </section>
+  </main>
+
+  <!-- Capas de efectos -->
+  <div id="balloons"></div>
+  <canvas id="confetti"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
