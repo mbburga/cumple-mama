@@ -395,7 +395,7 @@ body.lit #enter {
   visibility: visible;
 }
 
-#back {
+#back, #backGame, #backGarden, #backLetter {
   position: fixed;
   top: 14px; left: 14px;
   z-index: 5;
@@ -515,3 +515,472 @@ body.lit #enter {
   transition: transform .35s ease;
 }
 #lightbox.show img { transform: scale(1); }
+
+/* =========================================================
+   BOTÓN GENÉRICO "SIGUIENTE"
+   ========================================================= */
+.next-btn {
+  margin-top: 1.2rem;
+  padding: .85rem 1.7rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #7b2a6e;
+  background: linear-gradient(135deg, #fff1c9, #ffd1dc);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.28), 0 0 22px rgba(255,210,150,.55);
+  cursor: pointer;
+}
+.next-btn:active { transform: scale(.96); }
+
+#moments .next-btn { opacity: 0; }
+#moments.open .next-btn {
+  opacity: 1;
+  transition: opacity 1.2s ease 5s;
+}
+
+/* =========================================================
+   SECCIÓN: JUEGO DE MEMORIA
+   ========================================================= */
+#game {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  overflow-y: auto;
+  padding: 4rem 1rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(160deg, #1b0a3d 0%, #5a2a8e 50%, #ff6f91 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .8s ease, visibility .8s;
+}
+#game.open {
+  opacity: 1;
+  visibility: visible;
+}
+#game h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.2rem, 9vw, 3.4rem);
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,200,120,.7);
+}
+#game .stats {
+  margin-top: .1rem;
+  font-size: 1rem;
+  color: rgba(255,255,255,.92);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .6rem;
+  /* el tablero se ajusta para que las 4 filas quepan en el celular */
+  width: min(94vw, max(230px, calc((100dvh - 240px) / 2)));
+  margin: 1rem auto 0;
+}
+@media (min-width: 760px) and (orientation: landscape) {
+  .board {
+    grid-template-columns: repeat(4, 1fr);
+    width: min(94vw, 720px, max(400px, calc((100dvh - 240px) * 2)));
+  }
+}
+
+.card {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  perspective: 700px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+#game.open .card { animation: deal .5s ease backwards; animation-delay: calc(.5s + var(--n) * .08s); }
+@keyframes deal {
+  from { opacity: 0; transform: translateY(30px) scale(.8); }
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform .55s cubic-bezier(.4, .2, .2, 1);
+}
+.card.flipped .card-inner,
+.card.matched .card-inner { transform: rotateY(180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+.face.front {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  color: rgba(255,255,255,.95);
+  background: linear-gradient(135deg, #ff9ec0, #b388ff);
+  border: 3px solid rgba(255,255,255,.7);
+}
+.face.back {
+  transform: rotateY(180deg);
+  padding: 5px;
+  background: #fff;
+}
+.face.back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  border-radius: 8px;
+}
+.card.matched { animation: pop .5s ease; }
+.card.matched .face.back {
+  box-shadow: 0 0 0 3px #ffd27a, 0 0 22px rgba(255,210,122,.9);
+}
+@keyframes pop { 50% { transform: scale(1.08); } }
+
+/* ---------- Mensaje al ganar ---------- */
+#win {
+  position: fixed;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  background: rgba(20, 0, 40, .72);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .6s ease, visibility .6s;
+}
+#win.show { opacity: 1; visibility: visible; }
+.win-box {
+  max-width: 22rem;
+  padding: 1.8rem 1.5rem 1.6rem;
+  border-radius: 22px;
+  background: linear-gradient(160deg, #fff7e0, #ffe1ea);
+  color: #5a3350;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 40px rgba(255,210,150,.6);
+  transform: scale(.85);
+  transition: transform .6s cubic-bezier(.2, .9, .3, 1.3);
+}
+#win.show .win-box { transform: scale(1); }
+.win-box h3 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
+  line-height: 1.1;
+}
+.win-box p {
+  margin-top: .6rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+.win-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .2rem;
+}
+.ghost-btn {
+  margin-top: .6rem;
+  background: transparent;
+  border: 2px solid #c06a9b;
+  box-shadow: none;
+  color: #7b2a6e;
+}
+
+/* =========================================================
+   SECCIÓN: JARDÍN DE RAZONES
+   ========================================================= */
+#garden {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  overflow-y: auto;
+  padding: 4rem 1rem 2rem;
+  text-align: center;
+  background: linear-gradient(180deg, #0d1b3d 0%, #3b2a73 55%, #d9667e 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .9s ease, visibility .9s;
+}
+#garden.open {
+  opacity: 1;
+  visibility: visible;
+}
+/* estrellitas de fondo */
+#garden::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 12% 14%, #fff, transparent),
+    radial-gradient(2px 2px at 78% 9%,  #fff, transparent),
+    radial-gradient(1.5px 1.5px at 33% 28%, #ffe9a8, transparent),
+    radial-gradient(2px 2px at 90% 32%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 55% 12%, #fff, transparent),
+    radial-gradient(2px 2px at 6% 44%,  #ffe9a8, transparent),
+    radial-gradient(1.5px 1.5px at 68% 40%, #fff, transparent),
+    radial-gradient(2px 2px at 44% 6%,  #fff, transparent);
+  animation: twinkle 3s ease-in-out infinite alternate;
+}
+@keyframes twinkle {
+  from { opacity: .45; }
+  to   { opacity: 1; }
+}
+
+#garden h2 {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.4rem, 10vw, 3.6rem);
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255,200,120,.7);
+}
+#garden .stats {
+  margin-top: .1rem;
+  font-size: 1rem;
+  color: rgba(255,255,255,.92);
+}
+
+#gardenMsg {
+  max-width: 24rem;
+  min-height: 5.2rem;
+  margin: 1rem auto .4rem;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.3);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: #fff;
+  transition: opacity .3s ease, transform .3s ease;
+}
+#gardenMsg.swap {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.flowers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .2rem .5rem;
+  max-width: 420px;
+  margin: .6rem auto 0;
+}
+.flower {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+.flower svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: 50% 100%;
+  animation: swayF 3.6s ease-in-out infinite alternate;
+  animation-delay: calc(var(--n) * -.6s);
+}
+@keyframes swayF {
+  from { transform: rotate(-2.5deg); }
+  to   { transform: rotate(2.5deg); }
+}
+
+/* el tallo crece */
+.flower .stem {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: grow 1.3s ease forwards;
+  animation-delay: calc(.6s + var(--n) * .4s);
+}
+@keyframes grow { to { stroke-dashoffset: 0; } }
+
+.flower .leaf,
+.flower .head {
+  opacity: 0;
+  animation: fadeIn .7s ease forwards;
+  animation-delay: calc(1.3s + var(--n) * .4s);
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* el capullo late hasta que se toca */
+.flower .bloom {
+  transform: scale(.28);
+  transition: transform 1s cubic-bezier(.2, 1.4, .4, 1);
+}
+.flower:not(.open) .bloom {
+  animation: budPulse 1.4s ease-in-out infinite alternate;
+}
+@keyframes budPulse {
+  from { transform: scale(.26); }
+  to   { transform: scale(.36); }
+}
+.flower.open .bloom { transform: scale(1) rotate(22deg); }
+
+#gardenDone {
+  margin-top: 1.4rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.9rem;
+  color: #fff;
+  text-shadow: 0 0 16px rgba(255,200,120,.7);
+  opacity: 0;
+}
+#gardenDone.show {
+  opacity: 1;
+  transition: opacity 1.4s ease;
+}
+
+/* botón "Leer mi carta": aparece al abrir las 6 flores */
+#garden .next-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+#garden .next-btn.show {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 1.2s ease .6s;
+  animation: btnPulse 2.2s ease-in-out 2s infinite;
+}
+
+/* =========================================================
+   SECCIÓN: CARTA FINAL
+   ========================================================= */
+#letter {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  overflow-y: auto;
+  padding: 4.2rem 1rem 3rem;
+  text-align: center;
+  background: linear-gradient(160deg, #1a0a2e 0%, #4a1f5e 55%, #ff7a59 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .9s ease, visibility .9s;
+}
+#letter.open {
+  opacity: 1;
+  visibility: visible;
+}
+#fireworks {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.paper {
+  position: relative;
+  z-index: 1;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 1.8rem 1.5rem 1.6rem;
+  text-align: left;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(transparent 0 34px, rgba(150, 100, 80, .13) 34px 35px),
+    linear-gradient(160deg, #fffaf0, #fff0d8);
+  box-shadow: 0 18px 50px rgba(0,0,0,.5), 0 0 40px rgba(255,200,140,.35);
+  transform: rotate(-.8deg);
+  cursor: pointer;
+}
+#letterBody {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 5.2vw, 1.6rem);
+  line-height: 35px;
+  color: #4a2e3f;
+  white-space: pre-wrap;
+  min-height: 12rem;
+}
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -.15em;
+  background: #4a2e3f;
+  animation: blink 1s steps(1) infinite;
+}
+.cursor.hide { display: none; }
+@keyframes blink { 50% { opacity: 0; } }
+
+#letterSign {
+  margin-top: 1rem;
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 5.6vw, 1.8rem);
+  line-height: 1.3;
+  text-align: right;
+  color: #b0305e;
+  opacity: 0;
+  transform: translateY(8px);
+}
+#letterSign.show {
+  opacity: 1;
+  transform: none;
+  transition: opacity 1.4s ease, transform 1.4s ease;
+}
+
+#finalWish {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.6rem;
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  font-size: clamp(2.2rem, 9vw, 3.2rem);
+  color: #fff;
+  text-shadow: 0 0 22px rgba(255,200,120,.9), 0 4px 16px rgba(0,0,0,.4);
+  opacity: 0;
+  transform: scale(.85);
+}
+#finalWish.show {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 1.6s ease, transform 1.6s cubic-bezier(.2,.9,.3,1.3);
+}
+.tapHint {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  font-size: .85rem;
+  color: rgba(255,255,255,.65);
+  transition: opacity .6s ease;
+}
+.tapHint.hide { opacity: 0; }
+
+/* ---------- Botón de música ---------- */
+#musicBtn {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 8;
+  width: 42px;
+  height: 42px;
+  font-size: 1.15rem;
+  line-height: 1;
+  color: #fff;
+  background: rgba(0,0,0,.35);
+  border: 1px solid rgba(255,255,255,.4);
+  border-radius: 50%;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  display: none;
+}
+#musicBtn.show { display: block; }

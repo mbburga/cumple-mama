@@ -78,10 +78,59 @@
     </div>
 
     <p class="soon">Toca una foto para verla grande ✨</p>
+    <button class="next-btn" id="toGame">Ahora, a jugar 🎮</button>
+  </section>
+
+  <!-- Sección: Juego de memoria -->
+  <section id="game" aria-label="Juego de memoria">
+    <button id="backGame">← Volver</button>
+    <h2>Encuentra las parejas</h2>
+    <p class="stats">Intentos: <b id="tries">0</b> · Parejas: <b id="pairs">0</b>/4</p>
+    <div class="board" id="board"></div>
+
+    <div id="win">
+      <div class="win-box">
+        <h3>¡Lo lograste! 🎉</h3>
+        <p>Cada recuerdo contigo vale oro. Gracias por todo, mamá. Te quiero mucho ❤️</p>
+        <div class="win-actions">
+          <button class="next-btn" id="toGarden">Seguir 🌸</button>
+          <button class="next-btn ghost-btn" id="again">Jugar otra vez</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección: Jardín de razones -->
+  <section id="garden" aria-label="Jardín de razones">
+    <button id="backGarden">← Volver</button>
+    <h2>Mi jardín para ti</h2>
+    <p class="stats">Flores abiertas: <b id="opened">0</b>/6</p>
+    <div id="gardenMsg">Toca una flor 🌸</div>
+    <div class="flowers" id="flowers"></div>
+    <p id="gardenDone">Y hay mil razones más... 💛</p>
+    <button class="next-btn" id="toLetter">Leer mi carta 💌</button>
+  </section>
+
+  <!-- Sección: Carta final -->
+  <section id="letter" aria-label="Carta">
+    <canvas id="fireworks"></canvas>
+    <button id="backLetter">← Volver</button>
+
+    <div class="paper" id="paper">
+      <p id="letterBody"><span id="typed"></span><span class="cursor" id="cursor"></span></p>
+      <p id="letterSign">Con todo mi amor,<br>Marcos</p>
+    </div>
+
+    <p id="finalWish">¡Feliz cumpleaños, mamá! 🎂</p>
+    <p class="tapHint" id="tapHint">toca la carta para escribir más rápido</p>
   </section>
 
   <!-- Foto ampliada -->
   <div id="lightbox"><img alt=""></div>
+
+  <!-- Música de fondo (opcional): musica/cancion.mp3 -->
+  <audio id="music" src="musica/cancion.mp3" loop preload="auto"></audio>
+  <button id="musicBtn" aria-label="Música">🔊</button>
 
   <script src="script.js"></script>
 </body>
